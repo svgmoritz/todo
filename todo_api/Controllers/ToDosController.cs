@@ -1,5 +1,5 @@
-﻿using todo_api.Data;
-using todo_api.Models;
+﻿using todo_library.Data;
+using todo_library.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
@@ -7,13 +7,13 @@ using System.Security.Claims;
 
 namespace todo_api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/todos")]
     [ApiController]
     [Authorize]
 
     public class ToDosController(DataContext context) : ControllerBase
     {
-        [HttpGet("GetToDo/{id}")]
+        [HttpGet("getToDo/{id}")]
         public async Task<IActionResult> GetToDo(string id)
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -25,7 +25,7 @@ namespace todo_api.Controllers
             return Ok(todo);
         }
 
-        [HttpGet("GetAllToDos")]
+        [HttpGet("getAllToDos")]
         public async Task<IActionResult> GetAllToDos()
         {
             string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -40,7 +40,7 @@ namespace todo_api.Controllers
             return Ok(todos);
         }
 
-        [HttpGet("GetAllFinishedToDos")]
+        [HttpGet("getAllFinishedToDos")]
         public async Task<IActionResult> GetAllFinishedToDos()
         {
             string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -54,7 +54,7 @@ namespace todo_api.Controllers
             return Ok(todos);
         }
 
-        [HttpGet("GetAllUnfinishedToDos")]
+        [HttpGet("getAllUnfinishedToDos")]
         public async Task<IActionResult> GetAllUnfinishedToDos()
         {
             string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -68,7 +68,7 @@ namespace todo_api.Controllers
             return Ok(todos);
         }
 
-        [HttpPost("AddToDo")]
+        [HttpPost("addToDo")]
         public async Task<IActionResult> AddToDo(string title)
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -86,7 +86,7 @@ namespace todo_api.Controllers
             return Ok(todo);
         }
 
-        [HttpPut("ChangeTitle/{id}")]
+        [HttpPut("changeTitle/{id}")]
         public async Task<IActionResult> ChangeTitle(int id, string title)
         {
             string userId = (User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -104,7 +104,7 @@ namespace todo_api.Controllers
             return Ok(todo);
         }
 
-        [HttpPut("ChangeIsDone/{id}")]
+        [HttpPut("changeIsDone/{id}")]
         public async Task<IActionResult> ChangeIsDone(int id, bool isDone)
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -122,7 +122,7 @@ namespace todo_api.Controllers
             return Ok(todo);
         }
 
-        [HttpDelete("DeleteToDo/{id}")]
+        [HttpDelete("deleteToDo/{id}")]
         public async Task<IActionResult> DeleteToDo(string id)
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -137,7 +137,7 @@ namespace todo_api.Controllers
             return Ok(todo);
         }
 
-        [HttpDelete("DeleteAllToDos")]
+        [HttpDelete("deleteAllToDos")]
         public async Task<IActionResult> DeleteAllToDos()
         {
             string id = User.FindFirstValue(ClaimTypes.NameIdentifier);

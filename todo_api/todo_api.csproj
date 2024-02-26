@@ -22,4 +22,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="8.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\todo_library\todo_library.csproj" />
+  </ItemGroup>
+
 </Project>

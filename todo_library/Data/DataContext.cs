@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using todo_api.Models;
+using todo_library.Models;
 
-namespace todo_api.Data
+namespace todo_library.Data
 {
     public class DataContext : IdentityDbContext
     {

@@ -1,4 +1,4 @@
-using todo_api.Data;
+using todo_library.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -41,7 +41,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapIdentityApi<IdentityUser>();
+app.MapGroup("api/auth")
+    .MapIdentityApi<IdentityUser>();
 
 app.UseHttpsRedirection();
 

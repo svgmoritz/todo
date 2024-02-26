@@ -1,4 +1,4 @@
-﻿namespace todo_api.Models
+﻿namespace todo_library.Models
 {
     public class ToDo
     {
