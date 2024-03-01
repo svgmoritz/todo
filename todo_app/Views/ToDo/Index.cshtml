@@ -1,5 +1,66 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model IEnumerable<todo_library.Models.ToDo>
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>ToDo</title>
+
+</head>
+
+<body id="todo-body">
+
+    <div id="todo-group">
+
+        <form method=post asp-action="AddToDo">
+
+            <div class="form-group" id="todo-input">
+
+                <input name="Title" type="text" class="form-control" />
+                <button type="submit" id="btn" class="btn btn-primary w-100">Add</button>
+
+            </div>
+
+        </form>
+
+        <div id="todo-list">
+
+            @{
+                if (Model == null)
+                {
+                    <p>No ToDos where found!</p>
+                }
+
+                else
+                {
+                    @foreach (var item in Model)
+                    {
+                        if (item.IsDone == false)
+                        {
+                            <div class="row">
+                                <div class="col-sm-6" id="card-list">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">@item.Title</h5>
+                                            <a href="#" class="btn btn-primary">Go</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <input class="form-control" id="todo-done" type="text" value="@item.Title">
+                        }
+                    }
+                }
+            }
+
+        </div>
+    </div>
+
+</body>
+</html>
+
+
+

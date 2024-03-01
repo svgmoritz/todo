@@ -1,28 +1,104 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    border-color: #14213d;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #fca311;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
-body {
-  margin-bottom: 60px;
+#btn {
+    color: #000000;
+    background-color: #fca311;
+    border-color: #14213d;
 }
 
-#auth {
+.form-control {
+    border: 1px solid #14213d;
+    margin-bottom: 10px;
+}
+
+#auth-body {
     display: flex;
-    align-items: center; 
-    justify-content: center; 
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+#auth-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#auth-text {
+    color: black;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+#todo-body {
+    display: flex;
+    flex-direction: column;
+}
+
+#todo-group {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#todo-list {
+    display: flex;
+    flex-flow: row wrap;
+    align-content: space-between;
+    justify-content: space-between;
+}
+
+#todo-input {
+    margin-top: 20px;
+}
+
+
+#todo-not-done {
+    border-color: #bc4749;
+}
+
+    #todo-not-done:focus {
+        border-color: #bc4749;
+        box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #a7c957;
+    }
+
+#todo-done {
+    border-color: #386641;
+}
+
+#card-list {
+    width: 100%;
+    
+}
+
+.card-body {
+    width: 200px;
+}
+
+
+productbox .card-title {
+    margin-left: 2px !important;
+    max-width: 200px !important;
+    font-size: 16px;
+    font-weight: 600;
 }

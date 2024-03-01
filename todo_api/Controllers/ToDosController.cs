@@ -73,6 +73,7 @@ namespace todo_api.Controllers
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+            if (string.IsNullOrWhiteSpace(title)) { return BadRequest("Title is empty!"); }
             if (!await context.Users.AnyAsync(c => c.Id == userId)) { return NotFound("User not found!"); }
 
             var todo = new ToDo();
@@ -95,7 +96,7 @@ namespace todo_api.Controllers
             if (todo == null) { return NotFound("ToDo not found!"); }
             if (todo.UserId != userId) { return BadRequest("Wrong ToDo!"); }
             if (todo.Title == title) { return BadRequest("Title didn't change!"); }
-
+            if (string.IsNullOrWhiteSpace(title)) { return BadRequest("Title is empty!"); }
 
             todo.Title = title;
 

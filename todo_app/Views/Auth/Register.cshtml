@@ -6,9 +6,9 @@
 
 </head>
 
-<body>
+<body id="auth-body">
 
-    <div id="auth">
+    <div id="auth-group">
         <form method="post" asp-action="Register">
 
             <div class="form-group">
@@ -25,10 +25,16 @@
 
             </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" id="btn" class="btn btn-primary w-100">Sign up</button>
+
+            <p id="auth-text">
+                Already have an account?
+                <a href="Login">Sign in</a>
+            </p>
 
         </form>
     </div>
+
 
 </body>
 </html>
