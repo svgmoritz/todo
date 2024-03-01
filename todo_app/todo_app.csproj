@@ -6,4 +6,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Include="Styles\App.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\todo_library\todo_library.csproj" />
+  </ItemGroup>
+
 </Project>
