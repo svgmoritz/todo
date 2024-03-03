@@ -13,6 +13,25 @@ namespace todo_api.Controllers
 
     public class ToDosController(DataContext context) : ControllerBase
     {
+        [HttpPost("addToDo")]
+        public async Task<IActionResult> AddToDo(string title)
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrWhiteSpace(title)) { return BadRequest("Title is empty!"); }
+            if (!await context.Users.AnyAsync(c => c.Id == userId)) { return NotFound("User not found!"); }
+
+            var todo = new ToDo();
+
+            todo.UserId = userId;
+            todo.Title = title;
+
+            await context.ToDos.AddAsync(todo);
+            await context.SaveChangesAsync();
+
+            return Ok(todo);
+        }
+
         [HttpGet("getToDo/{id}")]
         public async Task<IActionResult> GetToDo(string id)
         {
@@ -68,20 +87,18 @@ namespace todo_api.Controllers
             return Ok(todos);
         }
 
-        [HttpPost("addToDo")]
-        public async Task<IActionResult> AddToDo(string title)
+        [HttpGet("changeIsDone/{id}")]
+        public async Task<IActionResult> ChangeIsDone(int id)
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var todo = await context.ToDos.FindAsync(id);
 
-            if (string.IsNullOrWhiteSpace(title)) { return BadRequest("Title is empty!"); }
-            if (!await context.Users.AnyAsync(c => c.Id == userId)) { return NotFound("User not found!"); }
+            if (todo == null) { return NotFound("ToDo not found!"); }
+            if (todo.UserId != userId) { return BadRequest("Wrong ToDo!"); }
 
-            var todo = new ToDo();
+            if (!todo.IsDone) { todo.IsDone = true; }
+            else { todo.IsDone = false; }
 
-            todo.UserId = userId;
-            todo.Title = title;
-
-            await context.ToDos.AddAsync(todo);
             await context.SaveChangesAsync();
 
             return Ok(todo);
@@ -105,26 +122,8 @@ namespace todo_api.Controllers
             return Ok(todo);
         }
 
-        [HttpPut("changeIsDone/{id}")]
-        public async Task<IActionResult> ChangeIsDone(int id, bool isDone)
-        {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var todo = await context.ToDos.FindAsync(id);
-
-            if (todo == null) { return NotFound("ToDo not found!"); }
-            if (todo.UserId != userId) { return BadRequest("Wrong ToDo!"); }
-            if (todo.IsDone == isDone) { return BadRequest("IsDone didn't change!"); }
-
-
-            todo.IsDone = isDone;
-
-            await context.SaveChangesAsync();
-
-            return Ok(todo);
-        }
-
         [HttpDelete("deleteToDo/{id}")]
-        public async Task<IActionResult> DeleteToDo(string id)
+        public async Task<IActionResult> DeleteToDo(int id)
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var todo = await context.ToDos.FindAsync(id);

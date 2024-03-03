@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Net.Http;
 using todo_library.Models;
 
 namespace todo_app.Controllers
@@ -15,11 +16,7 @@ namespace todo_app.Controllers
 
         public async Task<IActionResult> Index()
         {
-            string token = Request.Cookies["Token"];
-
-            if (string.IsNullOrWhiteSpace(token)) return RedirectToAction("Login", "Auth");
-
-            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            todo_library.Helpers.StaticHelpers.SetAuthorizationHeader(client, Request.Cookies["Token"]);
 
             HttpResponseMessage response = await client.GetAsync("todos/getAllToDos");
 
@@ -36,13 +33,32 @@ namespace todo_app.Controllers
 
         public async Task<IActionResult> AddToDo([Bind("Title")] ToDo toDo)
         {
-            string token = Request.Cookies["Token"];
+            todo_library.Helpers.StaticHelpers.SetAuthorizationHeader(client, Request.Cookies["Token"]);
 
-            if (string.IsNullOrWhiteSpace(token)) return RedirectToAction("Login", "Auth");
+            HttpResponseMessage response = await client.PostAsJsonAsync($"todos/addToDo?title={toDo.Title}", toDo.Title);
 
-            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            if (response.IsSuccessStatusCode) return RedirectToAction("Index");
 
-            HttpResponseMessage response = await client.PostAsJsonAsync("todos/addToDo?title=" + toDo.Title, toDo.Title);
+            return View("Index");
+        }
+
+        public async Task<IActionResult> DeleteToDo(int id)
+        {
+            todo_library.Helpers.StaticHelpers.SetAuthorizationHeader(client, Request.Cookies["Token"]);
+
+            HttpResponseMessage response = await client.DeleteAsync($"todos/deleteToDo/{id}");
+
+            if (response.IsSuccessStatusCode) return RedirectToAction("Index");
+
+            return View("Index");
+        }
+
+        public async Task<IActionResult> ChangeIsDone(int id)
+        {
+
+            todo_library.Helpers.StaticHelpers.SetAuthorizationHeader(client, Request.Cookies["Token"]);
+
+            HttpResponseMessage response = await client.GetAsync($"todos/changeIsDone/{id}");
 
             if (response.IsSuccessStatusCode) return RedirectToAction("Index");
 
