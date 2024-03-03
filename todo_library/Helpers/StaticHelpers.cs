@@ -18,5 +18,14 @@ namespace todo_library.Helpers
 
             return client;
         }
+
+        public static void SetAuthorizationHeader(HttpClient client,string token)
+        {
+
+            if (!string.IsNullOrWhiteSpace(token))
+            {
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            }
+        }
     }
 }
