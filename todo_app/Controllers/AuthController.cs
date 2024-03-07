@@ -23,6 +23,7 @@ namespace todo_app.Controllers
         }
 
         public async Task<IActionResult> Login([Bind("Email", "Password")] UserDto user)
+        
         {
             HttpResponseMessage response = await client.PostAsJsonAsync("auth/login", user);
                                               
@@ -35,17 +36,19 @@ namespace todo_app.Controllers
                 JObject jObj = JObject.Parse(token);
                 token = jObj["accessToken"].ToString();
 
-                Response.Cookies.Append("Token", token, new CookieOptions
-                {
-                    HttpOnly = true,
-                    Secure = true,
-                    SameSite = SameSiteMode.Strict
-                });
+                Response.Cookies.Append("Token", token);
 
                 return RedirectToAction("Index", "ToDo");
             }
 
             return View("Login");
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            Response.Cookies.Delete("Token");
+
+            return RedirectToAction("Login");
         }
     }
 }

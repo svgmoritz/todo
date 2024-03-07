@@ -1,41 +1,28 @@
 ﻿<!DOCTYPE html>
-<html class="h-full bg-white">
+<html>
 <head>
     <title>Register</title>
 </head>
-<body class="h-full flex justify-center items-center">
+<body>
+    <section>
 
-    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+        <form asp-action="Register">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email</label>
+                <input name="Email" type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input name="Password" type="password" class="form-control" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Sign up</button>
+        </form>
 
-        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-            <form class="space-y-6" asp-action="Register">
-                <div>
-                    <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
-                    <div class="mt-2">
-                        <input id="email" name="Email" type="email" autocomplete="email" required class="block w-full rounded-md border-0 px-2 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                    </div>
-                </div>
+        <p class="text-center">
+            Already have an account?
+            <a href="Login">Sign in</a>
+        </p>
 
-                <div>
-                    <div class="flex items-center justify-between">
-                        <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
-                    </div>
-                    <div class="mt-2">
-                        <input id="password" name="Password" type="password" autocomplete="current-password" required class="block w-full rounded-md border-0 px-2 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                    </div>
-                </div>
-
-                <div>
-                    <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
-                </div>
-            </form>
-
-            <p class="mt-10 text-center text-sm text-gray-500">
-                Already have an account?
-                <a href="Login" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Sign in</a>
-            </p>
-        </div>
-    </div>
-
+    </section>
 </body>
 </html>

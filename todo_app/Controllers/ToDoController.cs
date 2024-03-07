@@ -28,7 +28,21 @@ namespace todo_app.Controllers
                 return View(toDos);
             }
 
-            return View();
+            return RedirectToAction("Login", "Auth");
+        }
+
+        public async Task<IActionResult> GetToDo()
+        {
+            todo_library.Helpers.StaticHelpers.SetAuthorizationHeader(client, Request.Cookies["Token"]);
+
+            HttpResponseMessage response = await client.GetAsync("todos/getToDo");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> AddToDo([Bind("Title")] ToDo toDo)
@@ -39,7 +53,7 @@ namespace todo_app.Controllers
 
             if (response.IsSuccessStatusCode) return RedirectToAction("Index");
 
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> DeleteToDo(int id)
@@ -50,7 +64,19 @@ namespace todo_app.Controllers
 
             if (response.IsSuccessStatusCode) return RedirectToAction("Index");
 
-            return View("Index");
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> ChangeTitle([Bind("Id", "Title")] ToDo todo)
+        {
+
+            todo_library.Helpers.StaticHelpers.SetAuthorizationHeader(client, Request.Cookies["Token"]);
+
+            HttpResponseMessage response = await client.PutAsJsonAsync($"todos/changeTitle/{todo.Id}?title={todo.Title}", todo);
+
+            if (response.IsSuccessStatusCode) return RedirectToAction("Index");
+
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> ChangeIsDone(int id)
@@ -62,7 +88,7 @@ namespace todo_app.Controllers
 
             if (response.IsSuccessStatusCode) return RedirectToAction("Index");
 
-            return View("Index");
+            return RedirectToAction("Index");
         }
     }
 }
