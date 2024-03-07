@@ -5,98 +5,124 @@
 
 <head>
 
-    <title>Index</title>
+    <title>ToDos</title>
 
 </head>
 
-<body class="h-full flex justify-center">
+<body>
 
-    <div class="flex min-h-full flex-col">
-        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+    <section>
 
-            <form class="space-y-6" asp-action="AddToDo">
+        <a asp-controller="Auth" asp-action="Logout" class="text-end">Logout</a>
 
-                <div class="mt-2">
-                    <input name="Title" required class="block w-full rounded-md border-0 px-2 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                </div>
+    </section>
 
-                <div>
-                    <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add</button>
-                </div>
+    <section>
 
-            </form>
+        <form asp-action="AddToDo">
+            <div class="form-group">
+                <input name="Title" type="text" class="form-control" placeholder="Add your todos">
+            </div>
 
-            @{
-                if (Model == null)
-                {
-                    <p>No ToDos where found!</p>
-                }
+            <button type="submit" class="btn btn-primary w-100">Add</button>
+        </form>
 
-                else
-                {
-                    <div class="flex justify-center overflow-y-auto mt-2">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>ToDos</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
+    </section>
 
-                            @foreach (var item in Model)
+    @if (Model.Count() == 0)
+    {
+        <section>
+            <h1>No tasks to do...</h1>
+        </section>
+    }
+
+    else
+    {
+        <section>
+            <table class="table">
+                <thead>
+                    <tr>
+
+                        <th scope="col"></th>
+                        <th scope="col">Tasks</th>
+                        <th scope="col">Actions</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            @if (item.IsDone)
                             {
-                                <tbody>
-                                    <tr>
+                                <th scope="row">
+                                    <form asp-action="ChangeIsDone" asp-route-id="@item.Id">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" onchange="this.form.submit()" checked>
+                                        </div>
+                                    </form>
+                                </th>
 
-                                        @if (item.IsDone)
-                                        {
-                                            <td>
-                                                <form asp-action="ChangeIsDone" asp-route-id="@item.Id">
-                                                    <input type="checkbox" class="checkbox" checked="checked" onchange="this.form.submit()" />
-                                                </form>
-                                            </td>
-                                            <td>
-                                                <s>@item.Title</s>
-                                            </td>
-                                        }
-
-                                        else
-                                        {
-                                            <td>
-                                                <form asp-action="ChangeIsDone" asp-route-id="@item.Id">
-                                                    <input type="checkbox" class="checkbox" onchange="this.form.submit()" />
-                                                </form>
-                                            </td>
-                                            <td>
-                                                @item.Title
-                                            </td>
-                                        }
-
-                                        <td>
-                                            <div class="flex grid grid-cols-2 gap-3">
-
-                                                <a asp-action="ChangeIsDone" asp-route-id="@item.Id">
-                                                    <i class="fa-solid fa-pen-to-square"></i>
-                                                </a>
-
-                                                <a asp-action="DeleteToDo" asp-route-id="@item.Id">
-                                                    <i class="fa-solid fa-trash"></i>
-                                                </a>
-
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
+                                <td>
+                                    <p><s>@item.Title</s></p>
+                                </td>
                             }
+                            else
+                            {
+                                <th scope="row">
+                                    <form asp-action="ChangeIsDone" asp-route-id="@item.Id">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" onchange="this.form.submit()">
+                                        </div>
+                                    </form>
+                                </th>
 
-                        </table>
+                                <td>
+                                    <p>@item.Title</p>
+                                </td>
+                            }
+                            <td>
+                                <a href="#editModal" data-bs-toggle="modal" data-bs-target="#editModal">Edit</a> |
+                                <a asp-action="DeleteToDo" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </section>
+
+        @foreach (var item in Model)
+        {
+            <section>
+
+                <div class="modal" id="editModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h4 class="modal-title">Change the title</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <form asp-action="ChangeTitle" asp-route-id="@item.Id">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <input name="Title" type="text" class="form-control" value="@item.Title">
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary w-100">Change</button>
+                                </div>
+
+                            </form>
+
+                        </div>
                     </div>
-
-                }
-            }
-
-        </div>
+            </section>
+        }
+    }
 
 </body>
 </html>

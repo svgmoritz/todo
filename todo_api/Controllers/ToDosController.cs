@@ -32,18 +32,6 @@ namespace todo_api.Controllers
             return Ok(todo);
         }
 
-        [HttpGet("getToDo/{id}")]
-        public async Task<IActionResult> GetToDo(string id)
-        {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var todo = await context.ToDos.FindAsync(id);
-
-            if (todo == null) { return NotFound("ToDo not found!"); }
-            if (todo.UserId != userId) { return BadRequest("Wrong ToDo!"); }
-
-            return Ok(todo);
-        }
-
         [HttpGet("getAllToDos")]
         public async Task<IActionResult> GetAllToDos()
         {
@@ -53,8 +41,6 @@ namespace todo_api.Controllers
 
             var todos = await context.ToDos.Where(todo => todo.UserId == id)
                 .ToListAsync();
-
-            if (!todos.Any()) { return NotFound("ToDos not found!"); }
 
             return Ok(todos);
         }
@@ -116,6 +102,7 @@ namespace todo_api.Controllers
             if (string.IsNullOrWhiteSpace(title)) { return BadRequest("Title is empty!"); }
 
             todo.Title = title;
+            todo.IsDone = false;
 
             await context.SaveChangesAsync();
 
