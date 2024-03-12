@@ -43,6 +43,11 @@ if (app.Environment.IsDevelopment())
 app.MapGroup("api/auth")
     .MapIdentityApi<IdentityUser>();
 
+app.MapPost("api/auth/logout", async (SignInManager<IdentityUser> signInManager) =>
+{
+    await signInManager.SignOutAsync().ConfigureAwait(false);
+}).RequireAuthorization(); 
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

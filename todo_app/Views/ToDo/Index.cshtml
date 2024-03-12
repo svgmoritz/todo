@@ -1,59 +1,47 @@
 ﻿@model IEnumerable<todo_library.Models.ToDo>
 
 <!DOCTYPE html>
-<html class="h-full bg-white">
-
+<html>
 <head>
-
     <title>ToDos</title>
-
 </head>
-
 <body>
-
-    <section>
-
-        <a asp-controller="Auth" asp-action="Logout" class="text-end">Logout</a>
-
+    <section class="text-end mt-3 mb-3">
+        <a asp-controller="Auth" asp-action="Logout" class="btn btn-secondary " role="button">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
     </section>
 
     <section>
-
-        <form asp-action="AddToDo">
-            <div class="form-group">
+        <form asp-action="AddToDo" class="mb-4">
+            <div class="input-group mb-3">
                 <input name="Title" type="text" class="form-control" placeholder="Add your todos">
+                <button type="submit" class="btn btn-primary">Add</button>
             </div>
-
-            <button type="submit" class="btn btn-primary w-100">Add</button>
         </form>
-
     </section>
 
-    @if (Model.Count() == 0)
+    @if (!Model.Any())
     {
-        <section>
-            <h1>No tasks to do...</h1>
-        </section>
-    }
 
+        <p class="text-ce">No tasks to do...</p>
+
+    }
     else
     {
         <section>
             <table class="table">
                 <thead>
                     <tr>
-
                         <th scope="col"></th>
                         <th scope="col">Tasks</th>
                         <th scope="col">Actions</th>
-
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
                         <tr>
-
                             @if (item.IsDone)
                             {
                                 <th scope="row">
@@ -63,7 +51,6 @@
                                         </div>
                                     </form>
                                 </th>
-
                                 <td>
                                     <p><s>@item.Title</s></p>
                                 </td>
@@ -77,7 +64,6 @@
                                         </div>
                                     </form>
                                 </th>
-
                                 <td>
                                     <p>@item.Title</p>
                                 </td>
@@ -95,34 +81,27 @@
         @foreach (var item in Model)
         {
             <section>
-
                 <div class="modal" id="editModal">
                     <div class="modal-dialog">
                         <div class="modal-content">
-
                             <div class="modal-header">
                                 <h4 class="modal-title">Change the title</h4>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
-
                             <form asp-action="ChangeTitle" asp-route-id="@item.Id">
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <input name="Title" type="text" class="form-control" value="@item.Title">
                                     </div>
                                 </div>
-
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary w-100">Change</button>
+                                    <button type="submit" class="btn btn-primary btn-block">Change</button>
                                 </div>
-
                             </form>
-
                         </div>
                     </div>
             </section>
         }
     }
-
 </body>
 </html>

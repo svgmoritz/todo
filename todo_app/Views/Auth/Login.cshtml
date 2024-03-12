@@ -1,28 +1,37 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 </head>
-<body>
-    <section>
-
-        <form asp-action="Login">
-            <div class="form-group">
-                <label for="exampleInputEmail1">Email</label>
-                <input name="Email" type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+<body class="d-flex vh-100 align-items-center">
+    <section class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <article class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Login</h2>
+                        <form asp-action="Login">
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="Email" aria-describedby="emailHelp">
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="Password">
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            </div>
+                        </form>
+                        <div class="text-center mt-3">
+                            Need an account? <a href="Register">Register here</a>
+                        </div>
+                    </div>
+                </article>
             </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input name="Password" type="password" class="form-control" placeholder="Password">
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Sign in</button>
-        </form>
-
-        <p class="text-center">
-            Need an account?
-            <a href="Register">Sign up</a>
-        </p>
-
+        </div>
     </section>
 </body>
 </html>
